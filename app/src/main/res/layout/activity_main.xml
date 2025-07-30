@@ -3,22 +3,63 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#FFFDE7">
+    android:background="#FFFDE7"
+    android:padding="16dp">
 
+    <!-- Custom Tracing View -->
     <com.spark.alphabet.TracingView
         android:id="@+id/tracingView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@+id/buttonLayout"
-        android:layout_alignParentStart="true"
+        android:layout_above="@+id/colorLayout"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="-4dp"
-        android:layout_marginTop="-3dp"
-        android:layout_marginBottom="35dp"
-        android:layout_weight="1"
+        android:layout_marginBottom="16dp"
         android:background="#FFFFFF" />
 
+    <!-- Color Selection Buttons -->
+    <LinearLayout
+        android:id="@+id/colorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonLayout"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/colorRed"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="#F44336"
+            android:text=""/>
+
+        <Button
+            android:id="@+id/colorBlue"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="#2196F3"
+            android:text=""/>
+
+        <Button
+            android:id="@+id/colorGreen"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="#4CAF50"
+            android:text=""/>
+
+        <Button
+            android:id="@+id/colorBlack"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="#000000"
+            android:text=""/>
+    </LinearLayout>
+
+    <!-- Navigation Buttons -->
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"

@@ -1,46 +1,61 @@
 package com.spark.alphabet;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class TracingView extends View {
 
-    private Paint tracePaint;
-    private Path tracePath;
+    private Paint paint;
+    private Path path;
     private String letter = "अ";
-    private Paint letterPaint;
 
     public TracingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        tracePath = new Path();
+        init();
+    }
 
-        tracePaint = new Paint();
-        tracePaint.setColor(Color.RED);
-        tracePaint.setStyle(Paint.Style.STROKE);
-        tracePaint.setStrokeWidth(32f);
-        tracePaint.setStrokeJoin(Paint.Join.ROUND);
+    private void init() {
+        paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(12f);
+        paint.setAntiAlias(true);
+        path = new Path();
+    }
 
-        letterPaint = new Paint();
-        letterPaint.setColor(Color.LTGRAY);
-        letterPaint.setTextSize(600f);
-        letterPaint.setTextAlign(Paint.Align.CENTER);
+    public void setPaintColor(int color) {
+        paint.setColor(color);
+        invalidate();
+    }
+
+    public void clearCanvas() {
+        path.reset();
+        invalidate();
+    }
+
+    public void setLetter(String letter) {
+        this.letter = letter;
+        clearCanvas();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        int xPos = getWidth() / 2;
-        int yPos = (int)((getHeight() / 2) - ((letterPaint.descent() + letterPaint.ascent()) / 2));
-
         // Draw letter in background
-        canvas.drawText(letter, xPos, yPos, letterPaint);
+        Paint textPaint = new Paint();
+        textPaint.setColor(Color.LTGRAY);
+        textPaint.setTextSize(600f);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(letter, getWidth() / 2f, getHeight() / 1.5f, textPaint);
 
-        // Draw traced path
-        canvas.drawPath(tracePath, tracePaint);
+        // Draw tracing path
+        canvas.drawPath(path, paint);
     }
 
     @Override
@@ -50,23 +65,15 @@ public class TracingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                tracePath.moveTo(x, y);
-                break;
+                path.moveTo(x, y);
+                return true;
             case MotionEvent.ACTION_MOVE:
-                tracePath.lineTo(x, y);
+                path.lineTo(x, y);
+                break;
+            case MotionEvent.ACTION_UP:
                 break;
         }
         invalidate();
         return true;
-    }
-
-    public void clearPath() {
-        tracePath.reset();
-        invalidate();
-    }
-
-    public void setLetterToTrace(String letter) {
-        this.letter = letter;
-        invalidate();
     }
 }
